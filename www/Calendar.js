@@ -215,4 +215,16 @@ Calendar.install = function () {
   return window.plugins.calendar;
 };
 
-cordova.addConstructor(Calendar.install);
+cordova.addConstructor(function() {
+  if (!cordova.plugins) {
+    cordova.plugins = {};
+  }
+
+  // shim to work in 1.5 and 1.6
+  if (!window.Cordova) {
+    window.Cordova = cordova;
+  }
+  ;
+
+  cordova.plugins.calendar = new Calendar();
+});
